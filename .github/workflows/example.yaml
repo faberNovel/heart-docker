@@ -23,7 +23,7 @@ jobs:
         run: docker build -t owner/heart:standard .
 
       - name: Start container
-        run: |
+        run: >
           docker run
           -it --rm
           --name heart-container
