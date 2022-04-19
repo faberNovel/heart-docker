@@ -1,6 +1,10 @@
 # heart-docker-standard
 
-heart-docker-standard provides a standard docker image of Heart to be used as an internal quality standard for web projects at Fabernovel.
+[![Super-Linter](https://github.com/faberNovel/heart-docker/workflows/Lint%20Code/badge.svg)](https://github.com/marketplace/actions/super-linter)
+
+[![Example](https://github.com/faberNovel/heart-docker/workflows/CI%20Example/badge.svg)](https://github.com/marketplace/actions/super-linter)
+
+heart-docker-standard provides a standard docker image of Heart to be used as an internal quality standard for web projects at Fabernovel within Github Actions or any similar CI tool.
 
 Heart is an open-source website quality analysis tool developed by _Fabernovel_, relying on a variety of third-party services such as _Mozilla Observatory_ or _Google Lighthouse_. The heart-docker-standard image only supports use of Heart's Dareboost and Slack modules via Heart's CLI.
 
@@ -13,6 +17,26 @@ For more details, see [Heart's official website](https://heart.fabernovel.com) a
 ```
 docker build -t fabernovel/heart:<tagname> .
 ```
+
+## Container start
+
+The folder holding all the configuration files in JSON format is to be mounted to the Docker image, as well as the following environment variables:
+
+- `DAREBOOST_API_TOKEN`: Dareboost API token of the user (API version 0.5 supported).
+- `SLACK_API_TOKEN`: Slack API token of the user.
+- `SLACK_CHANNEL_ID`: Name of the Slack channel to be notified.
+
+```shell
+docker run
+    -it
+    --rm
+    --name heart-container
+    -v "$(pwd)/ci/heart/config:/usr/heart/config"
+    -e SLACK_CHANNEL_ID=<channel-name>
+    -e DAREBOOST_API_TOKEN=<darebost-api-token>
+    -e SLACK_API_TOKEN=<slack-api-token> fabernovel/heart:standard
+```
+
 ## Image release to Fabernovel DockerHub
 
 ```

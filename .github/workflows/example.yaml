@@ -1,0 +1,34 @@
+name: CI Example
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  lint:
+    uses: ./github/workflows/linter.yaml
+
+  example:
+    needs: [lint]
+    runs-on: [self-hosted, docker]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-deptch: 0
+
+      - name: Build
+        run: docker build -t owner/heart:standard .
+
+      - name: Start container
+        run: |
+          docker run
+            -it --rm
+            --name heart-container
+            -v "$(pwd)/ci/heart/config:/usr/heart/config"
+            -e SLACK_CHANNEL_ID=${{env.SLACK_CHANNEL_ID }}
+            -e DAREBOOST_API_TOKEN=${{ env.DAREBOOST_API_TOKEN }}
+            -e SLACK_API_TOKEN=${{ env.SLACK_API_TOKEN }}
+            fabernovel/heart:standard

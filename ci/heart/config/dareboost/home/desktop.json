@@ -1,0 +1,10 @@
+{
+    "url": "https://www.fabernovel.com/",
+    "lang": "fr",
+    "location": "Washington DC",
+    "browser": {
+        "name": "Chrome"
+    },
+    "mobileAnalysis": false,
+    "isPrivate": true
+  }
