@@ -28,7 +28,6 @@ The folder holding all the configuration files in JSON format is to be mounted t
 
 ```shell
 docker run
-    -it
     --rm
     --name heart-container
     -v "$(pwd)/ci/heart/config:/usr/heart/config"
