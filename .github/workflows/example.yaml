@@ -25,10 +25,10 @@ jobs:
       - name: Start container
         run: |
           docker run
-            -it --rm
-            --name heart-container
-            -v "$(pwd)/ci/heart/config:/usr/heart/config"
-            -e SLACK_CHANNEL_ID=${{env.SLACK_CHANNEL_ID }}
-            -e DAREBOOST_API_TOKEN=${{ env.DAREBOOST_API_TOKEN }}
-            -e SLACK_API_TOKEN=${{ env.SLACK_API_TOKEN }}
-            fabernovel/heart:standard
+          -it --rm
+          --name heart-container
+          -v "$(pwd)/ci/heart/config:/usr/heart/config"
+          -e SLACK_CHANNEL_ID=${{env.SLACK_CHANNEL_ID }}
+          -e DAREBOOST_API_TOKEN=${{ env.DAREBOOST_API_TOKEN }}
+          -e SLACK_API_TOKEN=${{ env.SLACK_API_TOKEN }}
+          fabernovel/heart:standard
