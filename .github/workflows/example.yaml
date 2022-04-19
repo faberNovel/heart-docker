@@ -25,7 +25,7 @@ jobs:
       - name: Start container
         run: >
           docker run
-          -it --rm
+          --rm
           --name heart-container
           -v "$(pwd)/ci/heart/config:/usr/heart/config"
           -e SLACK_CHANNEL_ID=${{env.SLACK_CHANNEL_ID }}
