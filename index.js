@@ -33,6 +33,18 @@ const launchJobs = async (files) => {
   return results;
 };
 
+// Step 3 : Parse results and set return status based on presence or absence of errors
+
+const checkForErrors = (resultObject) => {
+    let errorCounter = 0;
+    for (const key in resultObject) {
+        if(resultObject[key].stderr !== '') errorCounter++
+    }
+
+    console.log(`Error summary: ${errorCounter} errors encountered.`)
+    return errorCounter===0
+}
+
 const runAllSteps = async () => {
   try {
     const files = await findConfigurationFiles(configDirectory);
@@ -42,6 +54,9 @@ const runAllSteps = async () => {
     const results = await launchJobs(files);
     console.log("Printing analysis results:");
     console.log(results);
+
+    const status = checkForErrors(results);
+    return status;
 
   } catch (error) {
     console.log(error.message);
