@@ -7,7 +7,7 @@ on:
 
 jobs:
   lint:
-    uses: ./github/workflows/linter.yaml
+    uses: ./github/workflows/linter.yaml@main
 
   example:
     needs: [lint]
