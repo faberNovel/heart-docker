@@ -1,4 +1,4 @@
-name: CI Example
+name: ci-working-example
 
 on:
   push:
@@ -9,6 +9,7 @@ env:
   DAREBOOST_API_TOKEN: ${{ secrets.DAREBOOST_API_TOKEN }}
   SLACK_API_TOKEN: ${{ secrets.SLACK_API_TOKEN }}
   SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
+
 jobs:
   lint:
     uses: ./.github/workflows/linter.yaml

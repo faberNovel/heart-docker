@@ -1,8 +1,8 @@
 # heart-docker-standard
 
-[![Super-Linter](https://github.com/faberNovel/heart-docker/workflows/Lint%20Code/badge.svg)](https://github.com/marketplace/actions/super-linter)
+[![Super-Linter](https://github.com/faberNovel/heart-docker/workflows/lint-code/badge.svg?event=workflow_dispatch)](https://github.com/marketplace/actions/super-linter)
 
-[![Example](https://github.com/faberNovel/heart-docker/workflows/CI%20Example/badge.svg)](https://github.com/marketplace/actions/super-linter)
+[![Example](https://github.com/faberNovel/heart-docker/workflows/ci-working-example/badge.svg)](https://github.com/marketplace/actions/super-linter)
 
 heart-docker-standard provides a standard docker image of Heart to be used as an internal quality standard for web projects at Fabernovel within Github Actions or any similar CI tool.
 
