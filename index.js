@@ -41,8 +41,10 @@ const checkForErrors = (resultObject) => {
         if(resultObject[key].stderr !== '') errorCounter++
     }
 
-    console.log(`Error summary: ${errorCounter} errors encountered.`)
-    return errorCounter===0
+    if(errorCounter!== 0) {
+        console.log(`Error: ${errorCounter} errors encountered.`)
+        process.exit(1)
+    }
 }
 
 const runAllSteps = async () => {
@@ -51,15 +53,19 @@ const runAllSteps = async () => {
     console.log("Found configuration files:");
     console.log(files);
 
+    if(files.length === 0) {
+        console.log("Error: No configuration files found!")
+        process.exit(1)
+    }
+
     const results = await launchJobs(files);
-    console.log("Printing analysis results:");
-    console.log(results);
 
     const status = checkForErrors(results);
     return status;
 
   } catch (error) {
     console.log(error.message);
+    process.exit(1)
   }
 };
 
