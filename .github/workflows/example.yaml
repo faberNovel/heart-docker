@@ -33,4 +33,4 @@ jobs:
           -e SLACK_CHANNEL_ID=${{env.SLACK_CHANNEL_ID }}
           -e DAREBOOST_API_TOKEN=${{ env.DAREBOOST_API_TOKEN }}
           -e SLACK_API_TOKEN=${{ env.SLACK_API_TOKEN }}
-          fabernovel/heart-dareboost-slack:latest
+          fabernovel/heart:dareboost-slack-v1.0.0
