@@ -8,9 +8,33 @@ Heart is an open-source website quality analysis tool developed by _Fabernovel_,
 
 For more details, see [Heart's official website](https://heart.fabernovel.com) and [Heart's official GitLab repository](https://gitlab.com/fabernovel/heart).
 
-# Image versions
+# Available versions
 
-`fabernovel/heart:standard`: Parses all JSON files in a configuration folder (and recursively in subfolders), runs **Dareboost** analyses and sends **Slack** notifications once the latter complete.
+## Tagging convention
+
+Heart Docker images are versioned with the syntax:
+
+`fabernovel/heart:<A>-<B>-v<major>.<minor>.<patch>`.
+
+`A`: Name of the analysis module used in image, lowercase.
+`B`: Name of the listener module(s) used in image, lowercase and separated with a hyphen ("`-`") symbol.
+
+Versioning increments follow the rules of [Semantic Versioning 2.0.0](http://google.com), i.e.:
+* **Major**: Breaking change, i.e. not backwards compatible
+* **Minor**: New functionality, backwards compatible
+* **Patch**: Backward compatible bug fixes
+
+
+Example:
+
+`fabernovel/heart:dareboost-slack-v1.0.0`
+
+
+## List of available versions
+
+| Image full name | Description | Latest tag |
+|-----------------|-------------|------------|
+|`heart:dareboost-slack-vx.x.x`| Parses all JSON files in a configuration folder (and recursively in subfolders), runs **Dareboost** analyses and sends **Slack** notifications once the latter complete.| **dareboost-slack-v1.0.0** |
 
 # How to use heart-docker on my project?
 
@@ -68,14 +92,16 @@ SLACK_CHANNEL_ID=<slack-channel-name>
 
 ## Step 3 - Create a CI workflow
 
-Define a CI workflow in the appropriate folder (for Github, workflows should be defined in the `.github/workflows` folder). Below is an example of workflow making use of the `heart-docker` image:
+Define a CI workflow in the appropriate folder (for Github, workflows should be defined in the `.github/workflows` folder). Below is an example of workflow making use of the `heart-docker` image (do not forget to set the tag name of the image to be used):
 
 ```yaml
 name: 'Website performance analysis'
 
 on:
-  workflow_dispatch:
+  workflow_dispatch: ~
   schedule:
+    # Cron syntax: <min> <hour> <day-of-month> <month> <day-of-week>
+    # Examples: https://crontab.guru/
     - cron: '0 9 * * 1'
 
 env:
@@ -88,8 +114,8 @@ jobs:
     runs-on: [self-hosted, docker]
 
     steps:
-      - name: 'Clean workspace before repository checkout'
-        uses: rtCamp/action-cleanup@master
+      # - name: 'Clean workspace before repository checkout'
+      #   uses: AutoModality/action-clean@v1
 
       - uses: actions/checkout@v2
         with:
@@ -104,19 +130,28 @@ jobs:
           -e SLACK_API_TOKEN=${{ secrets.SLACK_API_TOKEN }}
           -e SLACK_CHANNEL_ID=${{ secrets.SLACK_CHANNEL_ID }}
           -v ${{ github.workspace }}/${{ env.CONFIG_DIRECTORY }}:/usr/heart/config
-          fabernovel/heart:standard
+          fabernovel/heart:<image-tag>
 
-      - name: 'Clean workspace at end of workflow execution'
-        uses: rtCamp/action-cleanup@master
-        if: ${{ always() }}
+      # - name: 'Clean workspace at end of workflow execution'
+      #   uses: AutoModality/action-clean@v1
+      #   if: ${{ always() }}
 ```
 
-# Useful commands
+# Updating and publishing images
 
-## Image build
+## Image build and publishing
 
 ```
+# Step 1 : Log in
+docker login --username <your-username>
+
+# Step 2 : Type your password in prompt...
+
+# Locally build the image to be published (use the above tagging convention for tag definition)
 docker build -t fabernovel/heart:<tagname> .
+
+# Push image to public registry
+docker push fabernovel/heart:<tagname>
 ```
 
 ## Container start
@@ -131,17 +166,6 @@ docker run
     -e SLACK_CHANNEL_ID=<channel-name>
     -e DAREBOOST_API_TOKEN=<darebost-api-token>
     -e SLACK_API_TOKEN=<slack-api-token> fabernovel/heart:standard
-```
-
-## Image release to Fabernovel DockerHub
-
-```
-docker login --username <your-username>
-
-# Type your password in prompt...
-
-docker push fabernovel/heart:<tagname>
-
 ```
 
 ## Link to DockerHub
