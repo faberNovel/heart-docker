@@ -7,8 +7,8 @@ on:
 jobs:
   build:
     runs-on: [self-hosted, docker]
-    container:
-      image: docker://ubuntu:latest
+    # container:
+    #   image: docker://ubuntu:latest
 
     steps:
       - name: Checkout
