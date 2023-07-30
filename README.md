@@ -1,42 +1,20 @@
-# heart-docker-standard
+<p align="center">
+    <img alt="Violet square with rounded corners, featuring a heart in the form of a cloud of dots. Some of the dots are interconnected" src="./docs/images/heart.png" width="128">
+</p>
 
-[![Super-Linter](https://github.com/faberNovel/heart-docker/workflows/lint-code/badge.svg?event=workflow_dispatch)](https://github.com/faberNovel/heart-docker/blob/main/.github/workflows/linter.yaml) [![Example](https://github.com/faberNovel/heart-docker/workflows/ci-working-example/badge.svg)](https://github.com/faberNovel/heart-docker/blob/main/.github/workflows/example.yaml)
+<p align="center">A command-line tool to industrialize web quality measurement.</p>
 
-heart-docker-standard provides a standard docker image of Heart to be used as an internal quality standard for web projects at Fabernovel within Github Actions or any similar CI tool.
+# Description
 
-Heart is an open-source website quality analysis tool developed by _Fabernovel_, relying on a variety of third-party services such as _Mozilla Observatory_ or _Google Lighthouse_. The heart-docker-standard image only supports use of Heart's Dareboost and Slack modules via Heart's CLI.
+Heart is a tool that centralize the use of famous web quality measurement services ([_Google Lighthouse_](https://pagespeed.web.dev/), [_GreenIT Analysis_](https://www.ecoindex.fr/) or [_Mozilla Observatory_](https://observatory.mozilla.org/)) in a unique CLI
 
-For more details, see [Heart's official website](https://heart.fabernovel.com) and [Heart's official GitLab repository](https://gitlab.com/fabernovel/heart).
+With his modular approach, it makes easy to process the analysis results into a database to track metrics over time, or send them into a communication tool like Slack.
 
-# Available versions
+Moreover, the command-line interface allows a smooth integration into a CI/CD chain, particularly on GitHub where you can make use of [the dedicated GitHub Action](https://github.com/marketplace/actions/heart-webpages-evaluation).
 
-## Tagging convention
+For more details, see [Heart's website](https://heart.fabernovel.com) and [Heart's repository](https://github.com/fabernovel/heart).
 
-Heart Docker images are versioned with the syntax:
-
-`fabernovel/heart:<A>-<B>-v<major>.<minor>.<patch>`.
-
-`A`: Name of the analysis module used in image, lowercase.
-`B`: Name of the listener module(s) used in image, lowercase and separated with a hyphen ("`-`") symbol.
-
-Versioning increments follow the rules of [Semantic Versioning 2.0.0](http://google.com), i.e.:
-* **Major**: Breaking change, i.e. not backwards compatible
-* **Minor**: New functionality, backwards compatible
-* **Patch**: Backward compatible bug fixes
-
-
-Example:
-
-`fabernovel/heart:dareboost-slack-v1.0.0`
-
-
-## List of available versions
-
-| Image full name | Description | Latest tag |
-|-----------------|-------------|------------|
-|`heart:dareboost-slack-vx.x.x`| Parses all JSON files in a configuration folder (and recursively in subfolders), runs **Dareboost** analyses and sends **Slack** notifications once the latter complete.| **dareboost-slack-v1.0.0** |
-
-# How to use heart-docker on my project?
+# Usage
 
 ## Step 1 - Create configuration files
 
@@ -136,38 +114,3 @@ jobs:
       #   uses: AutoModality/action-clean@v1
       #   if: ${{ always() }}
 ```
-
-# Updating and publishing images
-
-## Image build and publishing
-
-```
-# Step 1 : Log in
-docker login --username <your-username>
-
-# Step 2 : Type your password in prompt...
-
-# Locally build the image to be published (use the above tagging convention for tag definition)
-docker build -t fabernovel/heart:<tagname> .
-
-# Push image to public registry
-docker push fabernovel/heart:<tagname>
-```
-
-## Container start
-
-The container can be started with the following command. The configuration folder holding all configuration files is to be mounted to `/usr/heart/config`. 
-
-```shell
-docker run
-    --rm
-    --name heart-container
-    -v "$(pwd)/ci/heart/config:/usr/heart/config"
-    -e SLACK_CHANNEL_ID=<channel-name>
-    -e DAREBOOST_API_TOKEN=<darebost-api-token>
-    -e SLACK_API_TOKEN=<slack-api-token> fabernovel/heart:standard
-```
-
-## Link to DockerHub
-
-https://hub.docker.com/repository/docker/fabernovel/heart
