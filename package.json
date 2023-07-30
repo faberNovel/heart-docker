@@ -1,12 +1,28 @@
 {
-  "name": "heart-standard",
+  "name": "heart-docker",
   "version": "1.0.0",
-  "main": "index.js",
+  "description": "Evaluate webpages directly from your CI with Google Lighthouse, GreenIT, Mozilla Observatory or SSLLabs Server.",
+  "homepage": "https://github.com/faberNovel/heart-docker#readme",
+  "bugs": {
+    "url": "https://github.com/faberNovel/heart-docker/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/faberNovel/heart-docker.git"
+  },
   "license": "MIT",
+  "contributors": [
+    "Bastien Gatellier <bastien.gatellier@fabernovel.com>",
+    "Florian Nguyen <florian.nguyen@fabernovel.com>"
+  ],
   "dependencies": {
-    "@fabernovel/heart-cli": "^3.1.1",
-    "@fabernovel/heart-dareboost": "^3.2.1",
-    "@fabernovel/heart-slack": "^3.2.1",
-    "glob": "^8.0.1"
+    "@fabernovel/heart-api": "^4.0.0-alpha.8",
+    "@fabernovel/heart-cli": "^4.0.0-alpha.8",
+    "@fabernovel/heart-greenit": "^4.0.0-alpha.8",
+    "@fabernovel/heart-lighthouse": "^4.0.0-alpha.8",
+    "@fabernovel/heart-mysql": "^4.0.0-alpha.8",
+    "@fabernovel/heart-observatory": "^4.0.0-alpha.8",
+    "@fabernovel/heart-slack": "^4.0.0-alpha.8",
+    "@fabernovel/heart-ssllabs-server": "^4.0.0-alpha.8"
   }
 }
