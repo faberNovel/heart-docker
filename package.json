@@ -16,13 +16,13 @@
     "Florian Nguyen <florian.nguyen@fabernovel.com>"
   ],
   "dependencies": {
-    "@fabernovel/heart-api": "^4.0.0-alpha.8",
-    "@fabernovel/heart-cli": "^4.0.0-alpha.8",
-    "@fabernovel/heart-greenit": "^4.0.0-alpha.8",
-    "@fabernovel/heart-lighthouse": "^4.0.0-alpha.8",
-    "@fabernovel/heart-mysql": "^4.0.0-alpha.8",
-    "@fabernovel/heart-observatory": "^4.0.0-alpha.8",
-    "@fabernovel/heart-slack": "^4.0.0-alpha.8",
-    "@fabernovel/heart-ssllabs-server": "^4.0.0-alpha.8"
+    "@fabernovel/heart-api": "^4.0.0-alpha.9",
+    "@fabernovel/heart-cli": "^4.0.0-alpha.9",
+    "@fabernovel/heart-greenit": "^4.0.0-alpha.9",
+    "@fabernovel/heart-lighthouse": "^4.0.0-alpha.9",
+    "@fabernovel/heart-mysql": "^4.0.0-alpha.9",
+    "@fabernovel/heart-observatory": "^4.0.0-alpha.9",
+    "@fabernovel/heart-slack": "^4.0.0-alpha.9",
+    "@fabernovel/heart-ssllabs-server": "^4.0.0-alpha.9"
   }
 }
