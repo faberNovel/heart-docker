@@ -1,6 +1,6 @@
 # Guide: Dockerizing a Node.js web app
 # https://nodejs.org/en/docs/guides/nodejs-docker-webapp
-FROM node:18-slim
+FROM node:18
 
 # Install Google Chrome dependencies.
 # https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md#chrome-doesnt-launch-on-linux
@@ -15,6 +15,4 @@ COPY package*.json ./
 
 # Install Heart dependencies.
 # npm ci provide faster, reliable, reproducible builds for production environments.
-RUN npm ci --omit=dev
-
-ENTRYPOINT ["npx", "heart"]
+RUN npm install --production --global
