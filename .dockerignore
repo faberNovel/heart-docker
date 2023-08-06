@@ -1,0 +1,7 @@
+.github
+.gitignore
+ci
+docs
+node_modules
+*.log
+*.md
