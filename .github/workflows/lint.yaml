@@ -1,4 +1,4 @@
-name: lint
+name: 🧹 Lint
 
 on:
   pull_request:
@@ -6,6 +6,7 @@ on:
 
 jobs:
   lint:
+    name: Lint codebase
     runs-on: ubuntu-latest
 
     steps:
@@ -16,7 +17,7 @@ jobs:
           # list of changed files within `super-linter`
           fetch-depth: 0
 
-      - name: Linter
+      - name: Lint
         uses: super-linter/super-linter:slim-v5
         env:
           VALIDATE_ALL_CODEBASE: false

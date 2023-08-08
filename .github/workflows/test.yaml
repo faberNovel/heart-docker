@@ -1,4 +1,4 @@
-name: test
+name: 🐛 Test
 
 on:
   pull_request:
@@ -6,7 +6,7 @@ on:
 
 jobs:
   test:
-    name: 🐛 Test image execution
+    name: Test image execution
     runs-on: ubuntu-latest
 
     steps:
