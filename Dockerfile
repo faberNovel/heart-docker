@@ -5,7 +5,7 @@ FROM node:18-slim
 # Install Google Chrome dependencies.
 # https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md#chrome-doesnt-launch-on-linux
 RUN apt-get update && \
-    apt-get -yq install \
+    apt-get -yq --no-install-recommends install \
     libasound2 \
     libatk-bridge2.0-0 \
     libatk1.0-0 \
@@ -40,7 +40,9 @@ RUN apt-get update && \
     libxrender1 \
     libxshmfence1 \
     libxss1 \
-    libxtst6
+    libxtst6 \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 # Create app directory
 WORKDIR /usr/heart
