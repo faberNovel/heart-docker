@@ -14,14 +14,13 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Build the image
-        run: docker build -t fabernovel/heart:1.0.0 .
+        run: docker build -t fabernovel/heart .
 
-      - name: Execute it and analyze the Heart website with Google Lighthouse
+      - name: Analyze the Heart website with Google Lighthouse
         # /usr/heart matches the WORKDIR instruction in Dockerfile.
-        # configuration source: https://github.com/GoogleChrome/lighthouse/blob/main/core/config/lr-mobile-config.js
         run: >
-          docker run -v "$(pwd)/ci/config:/usr/heart/config"
-          fabernovel/heart:1.0.0
+          docker run --volume "$(pwd)/ci/config:/usr/heart/config"
+          fabernovel/heart
           lighthouse
           --config config/lighthouse.json
           --except-listeners mysql,slack
