@@ -19,3 +19,5 @@ RUN npm ci --omit=dev
 
 # Bundle app source
 COPY . .
+ 
+ENTRYPOINT ["npx", "heart"]
