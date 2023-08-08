@@ -19,7 +19,7 @@ jobs:
       - name: Analyze the Heart website with Google Lighthouse
         # /usr/heart matches the WORKDIR instruction in Dockerfile.
         run: >
-          docker run --volume "$(pwd)/ci/config:/usr/heart/config"
+          docker run --rm --volume "$(pwd)/ci/config:/usr/heart/config"
           fabernovel/heart
           lighthouse
           --config config/lighthouse.json
