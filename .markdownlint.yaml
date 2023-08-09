@@ -1,0 +1,7 @@
+# Default state for all rules
+default: true
+# Inline HTML
+MD033:
+  allowed_elements: ["img", "p"]
+# First line in a file should be a top-level heading
+MD041: false
