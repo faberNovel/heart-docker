@@ -17,13 +17,15 @@ For more details, see [Heart's website](https://heart.fabernovel.com) and [Heart
 # Usage
 
 I want to:
-- analyze https://heart.fabernovel.com/ using the _Google Lighthouse_ service.
+
+- analyze <https://heart.fabernovel.com/> using the _Google Lighthouse_ service.
 - get the main metrics and advices on a `heart` Slack channel when the analysis is over.
 - check that the page grade reaches a minimum of 85 over 100.
 
 ## Run the container as an executable
 
 In the following commands:
+
 - replace `xoxb-remaining_token` by your Slack API token.
 - replace `fabernovel/heart:<version>` by the Docker image tag you want to use, example: `fabernovel/heart:4.0.0`
 
@@ -46,6 +48,7 @@ docker run --rm --volume "$(pwd)/ci/config:/usr/heart/config" --env HEART_SLACK_
 ```
 
 💡 Explainations:
+
 - `$(pwd)/ci/config` is the path on your host machine where the lighthouse.json file is located
 - `/usr/heart` is the path inside the container where Heart is located
 
