@@ -43,13 +43,11 @@ I want to:
 In the following commands:
 
 - replace `xoxb-remaining_token` by your Slack API token.
-- replace `fabernovel/heart:<version>` by the Docker image tag you want to use,
-    example: `fabernovel/heart:4.0.0`
 
 ### With the configuration as an inlined JSON
 
 ```shell
-docker run --rm --env HEART_SLACK_API_TOKEN=xoxb-remaining_token fabernovel/heart:<version> lighthouse --config '{"url":"https://heart.fabernovel.com"}' --only-listeners=slack
+docker run --rm --env HEART_SLACK_API_TOKEN=xoxb-remaining_token fabernovel/heart:latest lighthouse --config '{"url":"https://heart.fabernovel.com"}' --only-listeners=slack
 ```
 
 💡 Heart as been designed to trigger all installed listener modules.
@@ -65,10 +63,10 @@ Instead of an inlined JSON given to the `--config` option,
 you could prefer to specify the path to a file located on your host machine.
 
 To achieve that, you will have to map the host filesystem
-with the one from te container with the `--volume` option of the command:
+with the one from the container with the `--volume` option of the command:
 
 ```shell
-docker run --rm --volume "$(pwd)/ci/config:/usr/heart/config" --env HEART_SLACK_API_TOKEN=xoxb-remaining_token fabernovel/heart:<version> lighthouse --config config/lighthouse.json --only-listeners=slack
+docker run --rm --volume "$(pwd)/ci/config:/usr/heart/config" --env HEART_SLACK_API_TOKEN=xoxb-remaining_token fabernovel/heart:latest lighthouse --config config/lighthouse.json --only-listeners=slack
 ```
 
 💡 Explainations:
