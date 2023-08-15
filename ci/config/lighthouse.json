@@ -1,0 +1,14 @@
+{
+  "url": "https://heart.fabernovel.com/",
+  "config": {
+    "extends": "lighthouse:default",
+    "settings": {
+      "maxWaitForFcp": 15000,
+      "maxWaitForLoad": 35000,
+      "skipAudits": [
+        "uses-http2",
+        "bf-cache"
+      ]
+    }
+  }
+}

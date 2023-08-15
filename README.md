@@ -1,173 +1,83 @@
-# heart-docker-standard
+<p align="center">
+    <img
+        alt="Violet square with rounded corners,
+            featuring a heart in the form of a cloud of dots.
+            Some of the dots are interconnected"
+        src="./docs/images/heart.png"
+        title="Heart"
+        width="128">
+</p>
 
-[![Super-Linter](https://github.com/faberNovel/heart-docker/workflows/lint-code/badge.svg?event=workflow_dispatch)](https://github.com/faberNovel/heart-docker/blob/main/.github/workflows/linter.yaml) [![Example](https://github.com/faberNovel/heart-docker/workflows/ci-working-example/badge.svg)](https://github.com/faberNovel/heart-docker/blob/main/.github/workflows/example.yaml)
+<p align="center">
+    A command-line tool to industrialize web quality measurement.
+</p>
 
-heart-docker-standard provides a standard docker image of Heart to be used as an internal quality standard for web projects at Fabernovel within Github Actions or any similar CI tool.
+# Description
 
-Heart is an open-source website quality analysis tool developed by _Fabernovel_, relying on a variety of third-party services such as _Mozilla Observatory_ or _Google Lighthouse_. The heart-docker-standard image only supports use of Heart's Dareboost and Slack modules via Heart's CLI.
+Heart is a tool that centralize the use of famous web quality measurement
+services ([_Google Lighthouse_](https://pagespeed.web.dev/),
+[_GreenIT Analysis_](https://www.ecoindex.fr/) or
+[_Mozilla Observatory_](https://observatory.mozilla.org/)) in a unique CLI.
 
-For more details, see [Heart's official website](https://heart.fabernovel.com) and [Heart's official GitLab repository](https://gitlab.com/fabernovel/heart).
+With his modular approach, it makes easy to process the analysis results
+into a database to track metrics over time,
+or send them into a communication tool like Slack.
 
-# Available versions
+Moreover, the command-line interface allows a smooth integration
+into a CI/CD chain.
 
-## Tagging convention
+For more details, see [Heart's website](https://heart.fabernovel.com)
+and [Heart's repository](https://github.com/fabernovel/heart).
 
-Heart Docker images are versioned with the syntax:
+# Usage
 
-`fabernovel/heart:<A>-<B>-v<major>.<minor>.<patch>`.
+I want to:
 
-`A`: Name of the analysis module used in image, lowercase.
-`B`: Name of the listener module(s) used in image, lowercase and separated with a hyphen ("`-`") symbol.
+- analyze <https://heart.fabernovel.com/> using the _Google Lighthouse_ service.
+- get the main metrics and advices on a `heart` Slack channel
+    when the analysis is over.
+- check that the page grade reaches a minimum of 85 over 100.
 
-Versioning increments follow the rules of [Semantic Versioning 2.0.0](http://google.com), i.e.:
-* **Major**: Breaking change, i.e. not backwards compatible
-* **Minor**: New functionality, backwards compatible
-* **Patch**: Backward compatible bug fixes
+## Run the container as an executable
 
+In the following commands:
 
-Example:
+- replace `xoxb-remaining_token` by your Slack API token.
+- replace `fabernovel/heart:<version>` by the Docker image tag you want to use,
+    example: `fabernovel/heart:4.0.0`
 
-`fabernovel/heart:dareboost-slack-v1.0.0`
-
-
-## List of available versions
-
-| Image full name | Description | Latest tag |
-|-----------------|-------------|------------|
-|`heart:dareboost-slack-vx.x.x`| Parses all JSON files in a configuration folder (and recursively in subfolders), runs **Dareboost** analyses and sends **Slack** notifications once the latter complete.| **dareboost-slack-v1.0.0** |
-
-# How to use heart-docker on my project?
-
-## Step 1 - Create configuration files
-
-Create a configuration folder in your project. The default path for this configuration folder is `ci/heart/config`. Inside this folder, create a `dareboost` folder to hold the JSON configuration files to be provided for a Dareboost analysis. JSON files can be placed in subfolders at will for more clarity.
-
-```
-mkdir -p ci/heart/config/dareboost
-```
-
-Below is an example of file structure for your configuration folder:
-
-```
-├── README.md
-├── ci
-│   └── heart
-│       └── config
-│           └── dareboost
-│               └── homepage
-│                   └── mobile.json
-│                   └── desktop.json
-│               └── contact
-│                   └── mobile.json
-│                   └── desktop.json
-│               └── userDashboard
-│                   └── mobile.json
-│                   └── desktop.json
-```
-
-The content of each JSON file must follow the [request format API documentation](https://www.dareboost.com/en/documentation-api#analyse), except for the `token` property. Below is a simple example of such a configuration:
-
-```json
-{
-    "url": "https://www.heart.fabernovel.com/",
-    "lang": "fr",
-    "location": "Paris",
-    "browser": {
-        "name": "iPhone 6s/7/8 (BETA)"
-    },
-    "mobileAnalysis": true,
-    "isPrivate": true
-  }
-```
-
-## Step 2 - Setup secret variables in your project
-
-In order to use Dareboost and Slack, the following variables must be defined and accessible from your CI workflow. Define the following variables in your project's secrets (if not already defined at organization level):
-
-```
-DAREBOOST_API_TOKEN=<dareboost-token>
-SLACK_API_TOKEN=<slack-token>
-SLACK_CHANNEL_ID=<slack-channel-name>
-```
-
-## Step 3 - Create a CI workflow
-
-Define a CI workflow in the appropriate folder (for Github, workflows should be defined in the `.github/workflows` folder). Below is an example of workflow making use of the `heart-docker` image (do not forget to set the tag name of the image to be used):
-
-```yaml
-name: 'Website performance analysis'
-
-on:
-  workflow_dispatch: ~
-  schedule:
-    # Cron syntax: <min> <hour> <day-of-month> <month> <day-of-week>
-    # Examples: https://crontab.guru/
-    - cron: '0 9 * * 1'
-
-env:
-  CONFIG_DIRECTORY: 'ci/heart/config'       # path to your configuration directory
-  CONTAINER_DEFAULT_NAME: 'heart-container' # can be left unchanged
-
-jobs:
-  heart-standard:
-    name: 'Heart standard batch analysis'
-    runs-on: [self-hosted, docker]
-
-    steps:
-      # - name: 'Clean workspace before repository checkout'
-      #   uses: AutoModality/action-clean@v1
-
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-
-      - name: Heart standard analysis batch
-        run: >
-          docker run
-          --rm
-          --name ${{ env.CONTAINER_DEFAULT_NAME }}
-          -e DAREBOOST_API_TOKEN=${{ secrets.DAREBOOST_API_TOKEN }}
-          -e SLACK_API_TOKEN=${{ secrets.SLACK_API_TOKEN }}
-          -e SLACK_CHANNEL_ID=${{ secrets.SLACK_CHANNEL_ID }}
-          -v ${{ github.workspace }}/${{ env.CONFIG_DIRECTORY }}:/usr/heart/config
-          fabernovel/heart:<image-tag>
-
-      # - name: 'Clean workspace at end of workflow execution'
-      #   uses: AutoModality/action-clean@v1
-      #   if: ${{ always() }}
-```
-
-# Updating and publishing images
-
-## Image build and publishing
-
-```
-# Step 1 : Log in
-docker login --username <your-username>
-
-# Step 2 : Type your password in prompt...
-
-# Locally build the image to be published (use the above tagging convention for tag definition)
-docker build -t fabernovel/heart:<tagname> .
-
-# Push image to public registry
-docker push fabernovel/heart:<tagname>
-```
-
-## Container start
-
-The container can be started with the following command. The configuration folder holding all configuration files is to be mounted to `/usr/heart/config`. 
+### With the configuration as an inlined JSON
 
 ```shell
-docker run
-    --rm
-    --name heart-container
-    -v "$(pwd)/ci/heart/config:/usr/heart/config"
-    -e SLACK_CHANNEL_ID=<channel-name>
-    -e DAREBOOST_API_TOKEN=<darebost-api-token>
-    -e SLACK_API_TOKEN=<slack-api-token> fabernovel/heart:standard
+docker run --rm --env HEART_SLACK_API_TOKEN=xoxb-remaining_token fabernovel/heart:<version> lighthouse --config '{"url":"https://heart.fabernovel.com"}' --only-listeners=slack
 ```
 
-## Link to DockerHub
+💡 Heart as been designed to trigger all installed listener modules.
+The philosophy behind this is that you only install the modules you need.
+But in order to provide all module feature through a single Docker image,
+all modules had to be installed.
+So if you don't want to trigger all listener modules,
+don't forget to use the `--only-listeners` or `--except-listeners` option.
 
-https://hub.docker.com/repository/docker/fabernovel/heart
+### With the configuration as a file on the host machine
+
+Instead of an inlined JSON given to the `--config` option,
+you could prefer to specify the path to a file located on your host machine.
+
+To achieve that, you will have to map the host filesystem
+with the one from te container with the `--volume` option of the command:
+
+```shell
+docker run --rm --volume "$(pwd)/ci/config:/usr/heart/config" --env HEART_SLACK_API_TOKEN=xoxb-remaining_token fabernovel/heart:<version> lighthouse --config config/lighthouse.json --only-listeners=slack
+```
+
+💡 Explainations:
+
+- `$(pwd)/ci/config` is the path on your host machine where
+    the lighthouse.json file is located
+- `/usr/heart` is the path inside the container where Heart is located
+
+## Integration in a CI/CD chain
+
+Take a look at the [GitHub Action]((https://github.com/marketplace/actions/heart-webpages-evaluation))
+as an exemple of how to integrate this Docker image.
