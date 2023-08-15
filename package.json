@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Evaluate webpages directly from your CI with Google Lighthouse, GreenIT, Mozilla Observatory or SSLLabs Server.",
   "homepage": "https://github.com/faberNovel/heart-docker#readme",
+  "private": true,
   "bugs": {
     "url": "https://github.com/faberNovel/heart-docker/issues"
   },
