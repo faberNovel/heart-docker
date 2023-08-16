@@ -46,7 +46,10 @@ In the following commands:
 ### With the configuration as an inlined JSON
 
 ```shell
-docker run --rm --env HEART_SLACK_API_TOKEN=xoxb-rest-of-token fabernovel/heart:latest lighthouse --config '{"url":"https://heart.fabernovel.com"}' --only-listeners=slack
+docker run --rm\
+    --env HEART_SLACK_API_TOKEN=xoxb-rest-of-token\
+    fabernovel/heart:latest\
+    lighthouse --config '{"url":"https://heart.fabernovel.com"}' --only-listeners=slack
 ```
 
 💡 Heart as been designed to trigger all installed listener modules.
@@ -65,7 +68,11 @@ To achieve that, you will have to map the host filesystem
 with the one from the container with the `--volume` option of the command:
 
 ```shell
-docker run --rm --volume "$(pwd)/ci/config:/usr/heart/config" --env HEART_SLACK_API_TOKEN=xoxb-remaining_token fabernovel/heart:latest lighthouse --config config/lighthouse.json --only-listeners=slack
+docker run --rm\
+    --volume "$(pwd)/ci/config:/usr/heart/config"\
+    --env HEART_SLACK_API_TOKEN=xoxb-rest-of-token\
+    fabernovel/heart:latest\
+    lighthouse --config config/lighthouse.json --only-listeners=slack
 ```
 
 💡 Explainations:
