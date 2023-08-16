@@ -36,18 +36,17 @@ I want to:
 - analyze <https://heart.fabernovel.com/> using the _Google Lighthouse_ service.
 - get the main metrics and advices on a `heart` Slack channel
     when the analysis is over.
-- check that the page grade reaches a minimum of 85 over 100.
 
 ## Run the container as an executable
 
 In the following commands:
 
-- replace `xoxb-remaining_token` by your Slack API token.
+- replace `xoxb-rest-of-token` by your Slack API token.
 
 ### With the configuration as an inlined JSON
 
 ```shell
-docker run --rm --env HEART_SLACK_API_TOKEN=xoxb-remaining_token fabernovel/heart:latest lighthouse --config '{"url":"https://heart.fabernovel.com"}' --only-listeners=slack
+docker run --rm --env HEART_SLACK_API_TOKEN=xoxb-rest-of-token fabernovel/heart:latest lighthouse --config '{"url":"https://heart.fabernovel.com"}' --only-listeners=slack
 ```
 
 💡 Heart as been designed to trigger all installed listener modules.
